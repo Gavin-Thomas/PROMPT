@@ -67,9 +67,9 @@ The histogram of combined normalized IADL scores shows:
 ---
 
 ## Graphs
-1. **[Combined Normalized IADL Scores for Men](path/to/mens_combined_iadl_histogram.png)**  
-   This graph shows the density of normalized functional scores for men, grouped by cognitive categories.
+![Combined Normalized IADL Scores](https://gub.com/Gavin-Thomas/PROMPT/blob/main/images/IADL.png?raw=true)
+   This graph shows the density of normalized functional scores for men, grouped by definite cognitive categories.
 
-2. **[Combined Normalized IADL Scores for Women](path/to/womens_combined_iadl_histogram.png)**  
-   This graph highlights the distribution of normalized functional scores for women across cognitive categories.
+![Combined Normalized IADL Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/IADL.png?raw=true) 
+   This graph highlights the distribution of normalized functional scores for women across definite cognitive categories.
 
