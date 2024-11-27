@@ -104,7 +104,7 @@ This section examines the distributions of **MoCA Total Scores** and **MMSE Tota
 
 ### Figure 2: MMSE Total Scores by Cognitive Categories
 **Description**: The MMSE scores show similar patterns to the MoCA, with clear differentiation between cognitive categories. Definite Normal scores peak near 30, while Definite Dementia clusters at lower scores.
-![MMSE Total Scores](path/to/mmse_scores.png)
+![MMSE Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MMSE.png?raw=true)
 
 ---
 
