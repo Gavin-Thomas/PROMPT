@@ -46,9 +46,17 @@ The histogram of combined normalized IADL scores shows:
 
 
 
+---
+## IADL Women Score Distribution Relative to Men
 
+### Graphs
+![Combined Normalized IADL Scores MEN](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/IADL%20MEN.png?raw=true)
+   This graph shows the density of normalized functional scores for men, grouped by definite cognitive categories.
 
-### Men
+![Combined Normalized IADL Scores WOMEN](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/IADL%20WOMEN.png?raw=true) 
+   This graph highlights the distribution of normalized functional scores for women across definite cognitive categories.
+
+#### Men
 - **Definite Normal**:
   - Scores peak near **100%**, indicating high functional independence.
 - **Definite MCI**:
@@ -56,20 +64,11 @@ The histogram of combined normalized IADL scores shows:
 - **Definite Dementia**:
   - Scores cluster in the lower range (**0–40%**), signifying severe impairment.
 
-### Women
+#### Women
 - **Definite Normal**:
   - Similarly concentrated near **100%**, reflecting high functional ability.
 - **Definite MCI**:
   - Distributed across the mid-range, showing consistent patterns with men.
 - **Definite Dementia**:
   - Scores align with men, clustering in the **0–40%** range.
-
----
-
-## Graphs
-![Combined Normalized IADL Scores MEN](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/IADL%20MEN.png?raw=true)
-   This graph shows the density of normalized functional scores for men, grouped by definite cognitive categories.
-
-![Combined Normalized IADL Scores WOMEN](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/IADL%20WOMEN.png?raw=true) 
-   This graph highlights the distribution of normalized functional scores for women across definite cognitive categories.
 
