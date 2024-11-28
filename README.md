@@ -77,7 +77,10 @@ WITH THE SCORING, I NOTICED THAT BOTH MEN AND WOMEN WERE SCORED THE SAME WAY. SO
 ## Overview
 This section examines the distributions of **MoCA Total Scores** and **MMSE Total Scores** across cognitive categories (Definite Normal, Definite MCI, and Definite Dementia). These assessments provide critical insights into cognitive performance, with higher scores reflecting better cognition.
 
-### Key Findings
+### MoCA Total Scores by Cognitive Categories
+**Description**: The distribution of MoCA scores highlights distinct patterns across cognitive categories. Definite Normal individuals cluster at the upper range, while Definite Dementia scores are concentrated at the lower end.
+![MoCA Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MOCA.png?raw=true)
+
 #### **MoCA Total Scores**:
 - **Definite Normal**:
   - Scores peak in the range of **27–30**, indicating intact cognitive function.
@@ -85,6 +88,10 @@ This section examines the distributions of **MoCA Total Scores** and **MMSE Tota
   - Broadly distributed across the mid-range (**20–25**), consistent with mild impairments.
 - **Definite Dementia**:
   - Concentrated in the lower range (**0–15**), reflecting significant cognitive decline.
+
+### MMSE Total Scores by Cognitive Categories
+**Description**: The MMSE scores show similar patterns to the MoCA, with clear differentiation between cognitive categories. Definite Normal scores peak near 30, while Definite Dementia clusters at lower scores.
+![MMSE Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MMSE.png?raw=true)
 
 #### **MMSE Total Scores**:
 - **Definite Normal**:
@@ -94,51 +101,9 @@ This section examines the distributions of **MoCA Total Scores** and **MMSE Tota
 - **Definite Dementia**:
   - Scores are heavily clustered in the **0–20** range, indicating severe cognitive impairment.
 
----
+### MMSE and MoCA Scores by Sex
 
-## Figures
+![MMSE Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MMSEMOCA-SUBPLOTS.png?raw=true)
+MoCA scores for men and women show similar trends, with distinct peaks for Definite Normal near 30 and broad distributions for Definite MCI. Minor gender differences are observed in variability for Definite Dementia. MMSE scores align closely for men and women, with both groups showing clear separation between cognitive categories. Minor differences in variability are observed for Definite MCI and Definite Dementia.
 
-### Figure 1: MoCA Total Scores by Cognitive Categories
-**Description**: The distribution of MoCA scores highlights distinct patterns across cognitive categories. Definite Normal individuals cluster at the upper range, while Definite Dementia scores are concentrated at the lower end.
-![MoCA Total Scores](path/to/moca_scores.png)
-
-### Figure 2: MMSE Total Scores by Cognitive Categories
-**Description**: The MMSE scores show similar patterns to the MoCA, with clear differentiation between cognitive categories. Definite Normal scores peak near 30, while Definite Dementia clusters at lower scores.
-![MMSE Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MMSE.png?raw=true)
-
----
-
-## Comparison: Men vs Women
-
-### MoCA Total Scores
-#### **Men**:
-- Definite Normal men cluster in the range of **28–30**.
-- Definite Dementia scores for men are concentrated in the **0–15** range.
-- Men show slightly less variability compared to women in Definite MCI.
-
-#### **Women**:
-- Definite Normal women also peak near **28–30**.
-- Women in the Definite Dementia category show more spread in the lower range (0–20).
-
-### MMSE Total Scores
-#### **Men**:
-- Definite Normal men cluster in the range of **28–30**, similar to women.
-- Definite Dementia scores are sharply concentrated near **0–15** for men.
-  
-#### **Women**:
-- Definite Normal scores peak similarly near **28–30**.
-- Women in Definite Dementia categories show slightly greater spread than men, indicating more variability in scores.
-
-### Figures
-
-**Figure 3. MoCA Total Scores by Gender**
-MoCA scores for men and women show similar trends, with distinct peaks for Definite Normal near 30 and broad distributions for Definite MCI. Minor gender differences are observed in variability for Definite Dementia.
-
-**Figure 4: MMSE Total Scores by Gender**
-**Description**: MMSE scores align closely for men and women, with both groups showing clear separation between cognitive categories. Minor differences in variability are observed for Definite MCI and Definite Dementia.
-
----
-
-## Implications
-These results demonstrate the utility of MoCA and MMSE scores in distinguishing cognitive categories. Gender differences, while minor, may provide insights into variability within specific categories, particularly in the Definite Dementia group. These findings can guide tailored interventions and assessments.
 
