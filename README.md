@@ -4,9 +4,9 @@
 # Final Combined Normalized IADL Scores
 
 ## Overview
-The **Combined Normalized IADL Scores** provide a unified measure of functional ability, integrating both **Old IADL** and **New IADL** scores into a single metric. This ensures comparability across individuals assessed using different scales while maintaining consistency in interpreting higher scores as better functional independence.
+I believe I have now fixed most of the issues that we were having with the IADL scores, as it was a problem in my calculations that led to the odd graphs we were seeing. I have now fixed this. Please see below for the report.
 
-### Key Steps I Took:
+### Steps I Took:
 1. **Normalization of New IADL Scores**:
    - Raw scores (0–23) were normalized using: raw score / 23 *100
    - This scales the New IADL scores to a percentage (0–100%), where 100% reflects perfect function.
