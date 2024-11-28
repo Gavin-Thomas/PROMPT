@@ -516,26 +516,27 @@ The ROC AUC score for this model is **0.8205**.
 <div style="text-align: left;">
   <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/LR-importance.png?raw=true" alt="Feature Importance" style="width: 800px;">
 </div>
-**In order of importance (Most to Least)**
-- 1. The overall IADL score - normalized
-- 2. MMSE total score
-- 3. MOCA total score
-- 4. NEW IADL total score
-- 5. OLD IADL total score
-- 6. age
-- 7. A recall score of 0, on the moca recall subtest (0 being failed all recalls)
-- 8. Orientation/Location test: Where are we? Country, province, city, name of hospital or text
-street, floor # (max points of 5, meaning great performance on this one)
-- 9. Recalls all 3 objects given in moca subtest (great performance)
-- 10. Max points on Moca orientation subtask
-- 11. Max points on IADL transport task in new iadl (good performance for transport)
-- 12. MMSE what is the date task: year, season, month, date, day (score of 5 being max performance)
-- 13. Full function with shopping on IADL NEW subscale
-- 14. Full function with all food-related things - IADL Subscale food (new iadl)
-- 15. Full points in managing money category in IADL new. GOOD SCORE.
-- 16. Participant Fails the MMSE copy test from the MMSE Show patient a diagram of intersecting pentagons and ask text (number, Max: 1) him/her to copy intersecting pentagons. Score one point if all
-1 O angles are present and the overlap of pentagons is four
-sides
-- 17. Participant passes the MMSE copy test (see above)
-- 18. Full responsibility of own medications (NEW IADL)
 
+### In Order of Importance (Most to Least)
+
+1. **The overall IADL score** - normalized  
+2. **MMSE total score**  
+3. **MOCA total score**  
+4. **NEW IADL total score**  
+5. **OLD IADL total score**  
+6. **Age**  
+7. **A recall score of 0** on the MOCA recall subtest (0 indicates failure on all recalls)  
+8. **Orientation/Location test**: "Where are we?" (Country, province, city, name of hospital or street, floor #)  
+   - Maximum points: 5 (great performance)  
+9. **Recalls all 3 objects** given in the MOCA subtest (great performance)  
+10. **Max points** on the MOCA orientation subtask  
+11. **Max points** on the IADL transport task in the NEW IADL (good performance for transport)  
+12. **MMSE "What is the date?" task**: Year, season, month, date, day  
+    - Maximum score: 5 (max performance)  
+13. **Full function in the shopping category** on the NEW IADL subscale  
+14. **Full function in all food-related tasks** - NEW IADL subscale (food)  
+15. **Full points in managing money** on the NEW IADL (good score)  
+16. **Participant fails the MMSE copy test**:  
+    - "Show the patient a diagram of intersecting pentagons and ask them to copy it. Score 1 point if all 10 angles are present and the overlap of pentagons includes four sides."  
+17. **Participant passes the MMSE copy test** (see above)  
+18. **Full responsibility for managing own medications** - NEW IADL  
