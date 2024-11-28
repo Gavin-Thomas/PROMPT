@@ -106,4 +106,382 @@ This section examines the distributions of **MoCA Total Scores** and **MMSE Tota
 ![MMSE Total Scores](https://github.com/Gavin-Thomas/PROMPT/blob/main/images/MMSEMOCA-SUBPLOTS.png?raw=true)
 MoCA scores for men and women show similar trends, with distinct peaks for Definite Normal near 30 and broad distributions for Definite MCI. Minor gender differences are observed in variability for Definite Dementia. MMSE scores align closely for men and women, with both groups showing clear separation between cognitive categories. Minor differences in variability are observed for Definite MCI and Definite Dementia.
 
+---
+
+# Classification of Binary Dementia Categores
+
+- I made a category called dementia_binary
+- If the individual had possible or definite dementia, they received a '1', if it was anything else, they received a zero
+- I trained a binary logistic regression model, with cross validation, on the PROMPT dataset
+  
+### Below is my code for the model
+~~~
+# logistic_regression_dementia.py
+
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+
+# Preprocessing and modeling
+from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+
+# Evaluation
+from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, roc_curve
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Model saving
+import joblib
+
+# Handle imbalance
+from imblearn.over_sampling import SMOTE
+from imblearn.pipeline import Pipeline as ImbPipeline
+
+# Suppress warnings for cleaner output
+import warnings
+warnings.filterwarnings('ignore')
+
+def main():
+    # 1. Load the dataset
+    try:
+        data = pd.read_csv('fully_cleaned_combined_normalized_iadl_no_nan.csv')  
+        print("Dataset loaded successfully.\n")
+        print("Columns in the dataset:")
+        print(data.columns.tolist())
+    except FileNotFoundError:
+        print("Error: Dataset file not found in the current directory.")
+        return
+
+    # 2. Define target and predictors
+    target = 'dementia_binary'
+
+    # Columns to exclude from predictors
+    excluded_columns = [
+        'prompt_id',
+        'prompt_consent_status',
+        'date_of_consent_complete',
+        'informant_relation',
+        'live_with_informant',
+        'handedness'
+    ]
+
+    # 3. Define initial predictor columns
+    predictors = [col for col in data.columns if col not in excluded_columns + [target]]
+    print(f"\nNumber of predictors before excluding 'dx_imp' columns: {len(predictors)}")
+
+    # Exclude any predictors that start with 'dx_imp'
+    predictors = [col for col in predictors if not col.startswith('dx_imp')]
+    print(f"Number of predictors after excluding 'dx_imp' columns: {len(predictors)}")
+
+    # Ensure 'dementia_binary' is not in predictors
+    if target in predictors:
+        print(f"Error: Target variable '{target}' is still in the predictors list!")
+        return
+
+    # Exclude any columns containing 'dementia' in their name
+    suspect_columns = [col for col in predictors if 'dementia' in col.lower()]
+    if suspect_columns:
+        print(f"\nWarning: Found columns related to the target variable: {suspect_columns}")
+        predictors = [col for col in predictors if col not in suspect_columns]
+        print(f"Number of predictors after removing suspect columns: {len(predictors)}")
+
+    # 4. Set up features (X) and target (y)
+    X = data[predictors]
+    y = data[target]
+
+    # 5. Specify numerical columns (modifiable for flexibility)
+    numerical_cols = [
+        'education_years',
+        'smoking_former_agestart',
+        'smoking_former_agestop',
+        'smoking_current_qty',
+        'rudas_vsoltotalscore',
+        'mmsetotal',
+        'moca_total',
+        'iadltotal_old',
+        'iadltotal_new',
+        'Combined_Normalized_IADL',
+        'age'
+    ]
+
+    # Ensure specified numerical columns exist in the data
+    existing_numerical = [col for col in numerical_cols if col in X.columns]
+    missing_numerical = [col for col in numerical_cols if col not in X.columns]
+    if missing_numerical:
+        print(f"\nWarning: Missing numerical columns will be excluded: {missing_numerical}")
+
+    # Define categorical columns
+    categorical_cols = [col for col in predictors if col not in existing_numerical]
+    print(f"Number of numerical predictors: {len(existing_numerical)}")
+    print(f"Number of categorical predictors: {len(categorical_cols)}")
+
+    # 6. Identify and exclude highly correlated numerical features
+    correlation_threshold = 0.99  # Adjust as needed
+
+    # Compute correlation matrix
+    correlation_matrix = data[existing_numerical + [target]].corr()
+    target_correlation = correlation_matrix[target].drop(target).abs()
+    high_corr_features = target_correlation[target_correlation >= correlation_threshold].index.tolist()
+
+    if high_corr_features:
+        print(f"\nHighly correlated numerical features with '{target}': {high_corr_features}")
+        for feature in high_corr_features:
+            existing_numerical.remove(feature)
+            print(f"Excluded '{feature}' due to high correlation with target.")
+
+    # 7. Identify and exclude categorical features that perfectly predict the target
+    problematic_categorical_features = []
+    for col in categorical_cols:
+        cross_tab = pd.crosstab(data[col], y)
+        for category in cross_tab.index:
+            if (cross_tab.loc[category] == 0).any():
+                problematic_categorical_features.append(col)
+                print(f"Excluded '{col}' due to perfect prediction in category '{category}'.")
+                break  # Only need to find one category that perfectly predicts
+
+    # Remove problematic categorical features
+    categorical_cols = [col for col in categorical_cols if col not in problematic_categorical_features]
+    print(f"Number of categorical predictors after exclusion: {len(categorical_cols)}")
+
+    # 8. Check for features identical to the target
+    for col in existing_numerical + categorical_cols:
+        if data[col].equals(y):
+            print(f"Feature '{col}' is identical to the target. Excluding it.")
+            if col in existing_numerical:
+                existing_numerical.remove(col)
+            else:
+                categorical_cols.remove(col)
+
+    # 9. Handle missing values and encode categorical variables
+    numerical_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='median')),
+        ('scaler', StandardScaler())
+    ])
+
+    categorical_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='most_frequent')),
+        ('onehot', OneHotEncoder(handle_unknown='ignore', sparse=False))
+    ])
+
+    preprocessor = ColumnTransformer(transformers=[
+        ('num', numerical_transformer, existing_numerical),
+        ('cat', categorical_transformer, categorical_cols)
+    ])
+
+    # 10. Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, stratify=y, random_state=42)
+    print("\nData split into training and testing sets.")
+
+    # 11. Create a function to build pipelines for different models
+    def create_pipeline(model):
+        pipeline = ImbPipeline(steps=[
+            ('preprocessor', preprocessor),
+            ('smote', SMOTE(random_state=42)),
+            ('feature_selection', SelectFromModel(RandomForestClassifier(n_estimators=100, random_state=42))),
+            ('classifier', model)
+        ])
+        return pipeline
+
+    # 12. Define models and parameter grids
+    models = {
+        'Logistic Regression': {
+            'model': LogisticRegression(
+                solver='saga', max_iter=10000, random_state=42),
+            'param_grid': {
+                'classifier__C': np.logspace(-4, 4, 10),
+                'classifier__penalty': ['l1', 'l2']
+            }
+        },
+        'Random Forest': {
+            'model': RandomForestClassifier(random_state=42),
+            'param_grid': {
+                'classifier__n_estimators': [100, 200, 300],
+                'classifier__max_depth': [None, 10, 20],
+                'classifier__min_samples_leaf': [1, 2, 4],
+                'classifier__class_weight': ['balanced']
+            }
+        },
+        'XGBoost': {
+            'model': XGBClassifier(
+                use_label_encoder=False, eval_metric='logloss', random_state=42),
+            'param_grid': {
+                'classifier__n_estimators': [100, 200],
+                'classifier__learning_rate': [0.01, 0.1, 0.2],
+                'classifier__max_depth': [3, 5, 7],
+                'classifier__scale_pos_weight': [1, 2, 5]  # Adjust for imbalance
+            }
+        }
+    }
+
+    # 13. Cross-validation strategy
+    cv_strategy = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+    # 14. Fit models with hyperparameter tuning and evaluate
+    best_models = {}
+    for model_name, model_info in models.items():
+        print(f"\nTraining and tuning {model_name}...")
+        pipeline = create_pipeline(model_info['model'])
+        param_grid = model_info['param_grid']
+
+        grid_search = GridSearchCV(
+            estimator=pipeline,
+            param_grid=param_grid,
+            cv=cv_strategy,
+            scoring='roc_auc',
+            n_jobs=-1,
+            verbose=2
+        )
+
+        grid_search.fit(X_train, y_train)
+
+        print(f"\nBest Parameters for {model_name}:")
+        print(grid_search.best_params_)
+        print(f"\nBest Cross-Validation ROC AUC Score for {model_name}: {grid_search.best_score_:.4f}")
+
+        best_model = grid_search.best_estimator_
+        best_models[model_name] = best_model
+
+        # Evaluate on test set
+        y_pred_proba = best_model.predict_proba(X_test)[:, 1]
+
+        # Adjust classification threshold
+        threshold = 0.5  # Adjust as needed
+        y_pred_adjusted = (y_pred_proba >= threshold).astype(int)
+
+        # Compute confusion matrix
+        cm = confusion_matrix(y_test, y_pred_adjusted)
+        tn, fp, fn, tp = cm.ravel()
+
+        # Calculate sensitivity and specificity
+        sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
+        specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
+
+        print(f"\nModel Evaluation for {model_name} at Threshold {threshold}:")
+        print("\nConfusion Matrix:")
+        print(cm)
+        print(f"\nSensitivity (Recall for positive class): {sensitivity:.4f}")
+        print(f"Specificity (Recall for negative class): {specificity:.4f}")
+
+        print("\nClassification Report:")
+        print(classification_report(y_test, y_pred_adjusted, digits=4))
+
+        roc_auc = roc_auc_score(y_test, y_pred_proba)
+        print(f"ROC AUC Score: {roc_auc:.4f}")
+
+        # Plot ROC Curve
+        plt.figure(figsize=(8, 6))
+        fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+        plt.plot(fpr, tpr, label=f'{model_name} (AUC = {roc_auc:.4f})')
+        plt.plot([0, 1], [0, 1], 'k--', label='Random Guess')
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title(f'ROC Curve - {model_name}')
+        plt.legend(loc='lower right')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+        # 15. Adjust Threshold to Improve Sensitivity and Specificity
+        thresholds = np.arange(0.0, 1.0, 0.01)
+        sensitivities = []
+        specificities = []
+
+        for thresh in thresholds:
+            y_pred_thresh = (y_pred_proba >= thresh).astype(int)
+            tn, fp, fn, tp = confusion_matrix(y_test, y_pred_thresh).ravel()
+            sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
+            specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
+            sensitivities.append(sensitivity)
+            specificities.append(specificity)
+
+        # Plot Sensitivity vs. Specificity
+        plt.figure(figsize=(8,6))
+        plt.plot(thresholds, sensitivities, label='Sensitivity')
+        plt.plot(thresholds, specificities, label='Specificity')
+        plt.xlabel('Threshold')
+        plt.ylabel('Score')
+        plt.title(f'Sensitivity and Specificity at Different Thresholds - {model_name}')
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+        # Feature Importance (for models that support it)
+        if model_name in ['Logistic Regression', 'Random Forest', 'XGBoost']:
+            # Get feature names
+            preprocessor = best_model.named_steps['preprocessor']
+            feature_names = preprocessor.get_feature_names_out()
+
+            # Get selected features
+            mask = best_model.named_steps['feature_selection'].get_support()
+            selected_features = feature_names[mask]
+
+            if model_name == 'Logistic Regression':
+                coefficients = best_model.named_steps['classifier'].coef_[0]
+                importance = np.abs(coefficients)
+            else:
+                importance = best_model.named_steps['classifier'].feature_importances_
+
+            # Create a DataFrame for visualization
+            coef_df = pd.DataFrame({
+                'Feature': selected_features,
+                'Importance': importance
+            }).sort_values(by='Importance', ascending=False)
+
+            # Plot top 20 features
+            plt.figure(figsize=(10, 8))
+            sns.barplot(
+                x='Importance', y='Feature', data=coef_df.head(20),
+                palette='viridis', orient='h')
+            plt.title(f'Top 20 Features - {model_name}')
+            plt.tight_layout()
+            plt.show()
+
+    # 16. Save the best models
+    for model_name, model in best_models.items():
+        model_filename = f'{model_name.lower().replace(" ", "_")}_dementia_model.joblib'
+        joblib.dump(model, model_filename)
+        print(f"\nModel saved as '{model_filename}'.")
+
+if __name__ == "__main__":
+    main()
+~~~
+
+I began by loading the dataset and excluding irrelevant columns, such as identifiers and consent-related information, to prevent any unintended bias or data leakage. I segregated numerical and categorical variables, ensuring that each was appropriately preprocessed. For numerical features, I used median imputation to handle missing values and standardized the data to facilitate model convergence. Categorical variables underwent imputation with the most frequent values and were transformed using one-hot encoding to convert them into a machine-readable format. To further enhance the model's performance, I implemented feature selection using a Random Forest classifier, which helped in identifying and retaining the most impactful features while eliminating those that could introduce noise or redundancy. Note, that I was still using a Logistic Regression, I was just getting an idea of which features were the most important with the random forest.
+
+After preparing the data, I split it into training and testing sets, maintaining the class distribution to address any imbalance issues. I integrated SMOTE (Synthetic Minority Over-sampling Technique) to oversample the minority cognitive normal class, ensuring that the model had sufficient examples to learn from. I then did hyperparameter tuning using GridSearchCV, exploring a range of values for the regularization parameter `C` and experimenting with both L1 and L2 penalties. The optimal parameters identified were a very low `C` value of approximately 0.00077 and an L2 penalty, indicating a preference for simpler models with stronger regularization to prevent overfitting. Evaluating the model on the test set revealed a balanced performance with a sensitivity of about 75.34%, meaning the model correctly identified roughly three-quarters of the positive cases. The specificity stood at 78.24%, reflecting a strong ability to correctly identify negative cases. The ROC AUC score of 0.8205 underscores the model's commendable capability to distinguish between the classes. While these results demonstrate a solid foundation, there remains room for improvement, particularly in enhancing the model's ability to accurately identify positive cases without compromising its specificity. Future steps could involve experimenting with different thresholds, incorporating additional feature engineering, or exploring alternative algorithms to further elevate the model's performance.
+
+Best Parameters for Logistic Regression:
+{'classifier__C': 0.000774263682681127, 'classifier__penalty': 'l2'}
+
+Best Cross-Validation ROC AUC Score for Logistic Regression: 0.8638
+
+Model Evaluation for Logistic Regression at Threshold 0.5:
+
+Confusion Matrix:
+
+- **Sensitivity (Recall for positive class): 0.7534**
+- **Specificity (Recall for negative class): 0.7824**
+- **ROC AUC Score: 0.8205**
+
+| Class          | Precision | Recall  | F1-Score | Support |
+|----------------|-----------|---------|----------|---------|
+| No Dementia (0)| 0.8935    | 0.7824  | 0.8343   | 193     |
+| Dementia (1)   | 0.5670    | 0.7534  | 0.6471   | 73      |
+| **Accuracy**   |           |         | 0.7744   | 266     |
+| **Macro Avg**  | 0.7303    | 0.7679  | 0.7407   | 266     |
+| **Weighted Avg**| 0.8039   | 0.7744  | 0.7829   | 266     |
+
+
+
+
 
