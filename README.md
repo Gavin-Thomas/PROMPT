@@ -489,7 +489,7 @@ The best cross-validation ROC AUC score achieved was **0.8638**.
 
 ### Sensitivity and Specificity by Threshold
 <div style="text-align: left;">
-  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/Threshold-Sens-Spec.png?raw=true" alt="Sensitivity and Specificity by Threshold" style="width: 800px;">
+  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/Threshold-Sens-Spec.png.png?raw=true" alt="Sensitivity and Specificity by Threshold" style="width: 800px;">
 </div>
 
 ---
