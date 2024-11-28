@@ -460,18 +460,46 @@ I began by loading the dataset and excluding irrelevant columns, such as identif
 
 After preparing the data, I split it into training and testing sets, maintaining the class distribution to address any imbalance issues. I integrated SMOTE (Synthetic Minority Over-sampling Technique) to oversample the minority cognitive normal class, ensuring that the model had sufficient examples to learn from. I then did hyperparameter tuning using GridSearchCV, exploring a range of values for the regularization parameter `C` and experimenting with both L1 and L2 penalties. The optimal parameters identified were a very low `C` value of approximately 0.00077 and an L2 penalty, indicating a preference for simpler models with stronger regularization to prevent overfitting. Evaluating the model on the test set revealed a balanced performance with a sensitivity of about 75.34%, meaning the model correctly identified roughly three-quarters of the positive cases. The specificity stood at 78.24%, reflecting a strong ability to correctly identify negative cases. The ROC AUC score of 0.8205 underscores the model's commendable capability to distinguish between the classes. While these results demonstrate a solid foundation, there remains room for improvement, particularly in enhancing the model's ability to accurately identify positive cases without compromising its specificity. Future steps could involve experimenting with different thresholds, incorporating additional feature engineering, or exploring alternative algorithms to further elevate the model's performance.
 
-Best Parameters for Logistic Regression:
-{'classifier__C': 0.000774263682681127, 'classifier__penalty': 'l2'}
+## Best Logistic Regression Parameters
+The best parameters for the logistic regression model were determined as:  
+`{'classifier__C': 0.000774263682681127, 'classifier__penalty': 'l2'}`  
 
-Best Cross-Validation ROC AUC Score for Logistic Regression: 0.8638
+The best cross-validation ROC AUC score achieved was **0.8638**.
 
-Model Evaluation for Logistic Regression at Threshold 0.5:
+---
 
-Confusion Matrix:
+## Model Evaluation for Logistic Regression at Threshold 0.5
 
-- **Sensitivity (Recall for positive class): 0.7534**
+### AUC-ROC Curve
+<div style="text-align: left;">
+  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/LR-BINARY.png?raw=true" alt="AUC-ROC Curve" style="width: 800px;">
+</div>
+
+---
+
+### Confusion Matrix
+<div style="text-align: left;">
+  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/CM-LR.png?raw=true" alt="Confusion Matrix" style="width: 800px;">
+</div>
+
+- **Sensitivity (Recall for positive class): 0.7534**  
 - **Specificity (Recall for negative class): 0.7824**
-- **ROC AUC Score: 0.8205**
+
+---
+
+### Sensitivity and Specificity by Threshold
+<div style="text-align: left;">
+  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/Threshold-Sens-Spec.png?raw=true" alt="Sensitivity and Specificity by Threshold" style="width: 800px;">
+</div>
+
+---
+
+### ROC AUC Score
+The ROC AUC score for this model is **0.8205**.
+
+---
+
+### Classification Report
 
 | Class          | Precision | Recall  | F1-Score | Support |
 |----------------|-----------|---------|----------|---------|
@@ -481,7 +509,9 @@ Confusion Matrix:
 | **Macro Avg**  | 0.7303    | 0.7679  | 0.7407   | 266     |
 | **Weighted Avg**| 0.8039   | 0.7744  | 0.7829   | 266     |
 
+---
 
-
-
-
+## Feature Importance
+<div style="text-align: left;">
+  <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/LR-importance.png?raw=true" alt="Feature Importance" style="width: 800px;">
+</div>
