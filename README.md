@@ -107,7 +107,6 @@ This section examines the distributions of **MoCA Total Scores** and **MMSE Tota
 MoCA scores for men and women show similar trends, with distinct peaks for Definite Normal near 30 and broad distributions for Definite MCI. Minor gender differences are observed in variability for Definite Dementia. MMSE scores align closely for men and women, with both groups showing clear separation between cognitive categories. Minor differences in variability are observed for Definite MCI and Definite Dementia.
 
 ---
-
 # Classification of Binary Dementia Categores
 
 - I made a category called dementia_binary
@@ -115,6 +114,12 @@ MoCA scores for men and women show similar trends, with distinct peaks for Defin
 - I trained a binary logistic regression model, with cross validation, on the PROMPT dataset
   
 ### Below is my code for the model
+
+**_Quick summary:_**
+I processed the dataset by removing irrelevant columns, such as identifiers and consent-related information, to avoid bias and data leakage. I split the features into numerical and categorical types. Numerical data was imputed using the median and standardized for better model performance, while categorical data was imputed with the most frequent values and one-hot encoded. To refine the feature set, I used a Random Forest classifier to identify important features, even though the final model was a logistic regression. I split the data into training and testing sets, ensuring class distribution was maintained. To address class imbalance, I applied SMOTE to oversample the minority class. I then used GridSearchCV to tune hyperparameters, focusing on the regularization parameter \( C \) and penalty type. The best-performing model used a \( C \) value of 0.00077 and an L2 penalty, favoring strong regularization to prevent overfitting. The model achieved a sensitivity of 75.34% and a specificity of 78.24%, showing a decently balanced ability to identify both dementia and non-dementia cases. The ROC AUC score was 0.8205. 
+
+Go past this code to see the graphical results.
+
 ~~~
 # logistic_regression_dementia.py
 
@@ -455,10 +460,6 @@ def main():
 if __name__ == "__main__":
     main()
 ~~~
-
-I began by loading the dataset and excluding irrelevant columns, such as identifiers and consent-related information, to prevent any unintended bias or data leakage. I segregated numerical and categorical variables, ensuring that each was appropriately preprocessed. For numerical features, I used median imputation to handle missing values and standardized the data to facilitate model convergence. Categorical variables underwent imputation with the most frequent values and were transformed using one-hot encoding to convert them into a machine-readable format. To further enhance the model's performance, I implemented feature selection using a Random Forest classifier, which helped in identifying and retaining the most impactful features while eliminating those that could introduce noise or redundancy. Note, that I was still using a Logistic Regression, I was just getting an idea of which features were the most important with the random forest.
-
-After preparing the data, I split it into training and testing sets, maintaining the class distribution to address any imbalance issues. I integrated SMOTE (Synthetic Minority Over-sampling Technique) to oversample the minority cognitive normal class, ensuring that the model had sufficient examples to learn from. I then did hyperparameter tuning using GridSearchCV, exploring a range of values for the regularization parameter `C` and experimenting with both L1 and L2 penalties. The optimal parameters identified were a very low `C` value of approximately 0.00077 and an L2 penalty, indicating a preference for simpler models with stronger regularization to prevent overfitting. Evaluating the model on the test set revealed a balanced performance with a sensitivity of about 75.34%, meaning the model correctly identified roughly three-quarters of the positive cases. The specificity stood at 78.24%, reflecting a strong ability to correctly identify negative cases. The ROC AUC score of 0.8205 underscores the model's commendable capability to distinguish between the classes. While these results demonstrate a solid foundation, there remains room for improvement, particularly in enhancing the model's ability to accurately identify positive cases without compromising its specificity. Future steps could involve experimenting with different thresholds, incorporating additional feature engineering, or exploring alternative algorithms to further elevate the model's performance.
 
 ## Best Logistic Regression Parameters
 The best parameters for the logistic regression model were determined as:  
