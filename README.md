@@ -516,3 +516,26 @@ The ROC AUC score for this model is **0.8205**.
 <div style="text-align: left;">
   <img src="https://github.com/Gavin-Thomas/PROMPT/blob/main/images/LR-importance.png?raw=true" alt="Feature Importance" style="width: 800px;">
 </div>
+**In order of importance (Most to Least)**
+- 1. The overall IADL score - normalized
+- 2. MMSE total score
+- 3. MOCA total score
+- 4. NEW IADL total score
+- 5. OLD IADL total score
+- 6. age
+- 7. A recall score of 0, on the moca recall subtest (0 being failed all recalls)
+- 8. Orientation/Location test: Where are we? Country, province, city, name of hospital or text
+street, floor # (max points of 5, meaning great performance on this one)
+- 9. Recalls all 3 objects given in moca subtest (great performance)
+- 10. Max points on Moca orientation subtask
+- 11. Max points on IADL transport task in new iadl (good performance for transport)
+- 12. MMSE what is the date task: year, season, month, date, day (score of 5 being max performance)
+- 13. Full function with shopping on IADL NEW subscale
+- 14. Full function with all food-related things - IADL Subscale food (new iadl)
+- 15. Full points in managing money category in IADL new. GOOD SCORE.
+- 16. Participant Fails the MMSE copy test from the MMSE Show patient a diagram of intersecting pentagons and ask text (number, Max: 1) him/her to copy intersecting pentagons. Score one point if all
+1 O angles are present and the overlap of pentagons is four
+sides
+- 17. Participant passes the MMSE copy test (see above)
+- 18. Full responsibility of own medications (NEW IADL)
+
