@@ -1,5 +1,16 @@
+# A few things I've noticed... and a potential direction to take
 
+The predictors we have in PROMPT are quite specialized.
 
+I performed an analysis of our most important predictors. The most important predictors appear to be IADL, MMSE, MoCA, and Age.
+
+This means that using our algorithm on routinely collected health data/administrative health record data may only work for a small % of our population, as most undifferentiated individuals will not have IADL, MMSE, or MoCA, in the administrative health records.
+
+This brings me to the idea of a Point of care screening test (primary care, undifferentiated patient), vs population based screening. And while this may have already been done for MoCa, MMSE, etc., has this been done using a combiniation of factors (better than any one test) to come up with a more sensitive measure of dementia? 
+
+We could build an algorithm using the most important predictors from PROMPT using optimal sensitivity based off the literaature, to create an app-based algorithm that primary care physicians could use for screening. Essentially the primiary care physician could use the app to go through a barrage of questions for the patient using the app, then a local-app-based-algorithm could come up with a dementia risk score, or binary yes/no dementia --- this could help with referrals for the primary care physician and help them decide on whether or not to refer a patient to a dementia specialist.
+
+These are my observations, but I want to hear your thoughts.
           
 # Final Combined Normalized IADL Scores
 
