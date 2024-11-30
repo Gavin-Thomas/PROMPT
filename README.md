@@ -1,4 +1,4 @@
-# A few things I've noticed... and a potential direction to take (switching to screening tool)
+# A few things I've noticed... and a potential direction to take
 
 The most relevant predictors we have in PROMPT are quite specialized.
 
@@ -12,7 +12,7 @@ We could build an algorithm using the most important predictors from PROMPT usin
 
 These are my observations, but I want to hear your thoughts.
 
-MAIN QUESTION: DO we want to just comment on the burden of disease or make a useful screening tool. If it's the burden of disease then we have an issue, because only a small fraction of patients will have the useful predictors to beat the sensitivity and specificity of the Jaak article.
+**MAIN QUESTION: Rather than makinig our algorithm as a tool for facilitating diagnosis in a specialist memory clinic, maybe we could use our niche PROMPT registry data to develop a tool for undifferentiated patient screening in primary care.**
 
 **Jaakamainen appears to be using these algorithms to comment on the burden of disease not to inform individual patient care. This could be used to inform policy, but is not a screening tool.**
 Jaakamainen: The highest performing algorithm was “one hospitalization code OR (three physician claims codes at least 30 days apart in a two year period) OR a prescription filled for an AD-RD specific medication” with sensitivity 79.3% (confidence interval (CI) 72.9–85.8%), specificity 99.1% (CI 98.8–99.4%), positive predictive value 80.4% (CI 74.0–86.8%), and negative predictive value 99.0% (CI 98.7–99.4%).
