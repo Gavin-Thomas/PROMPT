@@ -13,6 +13,8 @@ We could build an algorithm using the most important predictors from PROMPT usin
 These are my observations, but I want to hear your thoughts.
 
 **MAIN QUESTION: Rather than makinig our algorithm as a tool for facilitating diagnosis in a specialist memory clinic, maybe we could use our niche PROMPT registry data to develop a tool for undifferentiated patient screening in primary care.**
+- More useful tool for primary care
+- Could go stepwise and see what extra predictors improve the model. - ie. in my analysis I could start with IADL, then add MMSE, then add MoCA - and use a logistic regression to determine the risk of dementia. then as final icing on the cake, for example you could take the different scores to say 10 of your colleagues, if dementia risk score is this, then the experts recommend (re-testing in 12 months, or referral memory clinic as an example).
 
 **Jaakamainen appears to be using these algorithms to comment on the burden of disease not to inform individual patient care. This could be used to inform policy, but is not a screening tool.**
 Jaakamainen: The highest performing algorithm was “one hospitalization code OR (three physician claims codes at least 30 days apart in a two year period) OR a prescription filled for an AD-RD specific medication” with sensitivity 79.3% (confidence interval (CI) 72.9–85.8%), specificity 99.1% (CI 98.8–99.4%), positive predictive value 80.4% (CI 74.0–86.8%), and negative predictive value 99.0% (CI 98.7–99.4%).
