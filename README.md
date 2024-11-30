@@ -8,7 +8,7 @@ This means that using our algorithm on routinely collected health data/administr
 
 This brings me to the idea of a Point of care screening test (primary care, undifferentiated patient), vs population based screening. And while this may have already been done for MoCa, MMSE, etc., has this been done using a combiniation of factors (better than any one test) to come up with a more sensitive measure of dementia? 
 
-We could build an algorithm using the most important predictors from PROMPT using optimal sensitivity based off the literaature, to create an app-based algorithm that primary care physicians could use for screening. Essentially the primiary care physician could use the app to go through a barrage of questions for the patient using the app, then a local-app-based-algorithm could come up with a dementia risk score, or binary yes/no dementia --- this could help with referrals for the primary care physician and help them decide on whether or not to refer a patient to a dementia specialist.
+We could build an algorithm using the most important predictors from PROMPT using optimal sensitivity based off the literature, to create an app-based algorithm that primary care physicians could use for screening. Essentially the primiary care physician could use the app to go through a barrage of questions for the patient using the app, then a local-app-based-algorithm could come up with a dementia risk score, or binary yes/no dementia --- this could help with referrals for the primary care physician and help them decide on whether or not to refer a patient to a dementia specialist.
 
 These are my observations, but I want to hear your thoughts.
 
