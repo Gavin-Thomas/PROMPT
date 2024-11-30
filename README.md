@@ -1,6 +1,6 @@
 # A few things I've noticed... and a potential direction to take
 
-The predictors we have in PROMPT are quite specialized.
+The most relevant predictors we have in PROMPT are quite specialized.
 
 I performed an analysis of our most important predictors. The most important predictors appear to be IADL, MMSE, MoCA, and Age.
 
