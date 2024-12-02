@@ -10,7 +10,7 @@ This brings me to the idea of a Point of care screening test (primary care, undi
 
 We could build an algorithm using the most important predictors from PROMPT using optimal sensitivity based off the literature, to create an app-based algorithm that primary care physicians could use for screening. Essentially the primiary care physician could use the app to go through a barrage of questions for the patient using the app, then a local-app-based-algorithm could come up with a dementia risk score, or binary yes/no dementia --- this could help with referrals for the primary care physician and help them decide on whether or not to refer a patient to a dementia specialist. 
 - There are app-based dementia screening tools out there already, but most of them focus on tests other than IADL, MMSE, or MoCA. Other apps for primary care practitioners have used GPCOG, RUDAS, GDS-4, and CAIDE models.
-- GPCOG is used routinely, and is quick, but I was thinking of potentially building an app that incorporates the IADL, MMSE, and MoCA standard to be more sensitive than the GPCOG -- an app which could be used to determine if individuals need to be referred or not.
+- GPCOG is used routinely, and is quick to administer, but I was thinking of potentially building an app that incorporates the IADL, MMSE, and MoCA standard to be more sensitive than the GPCOG -- an app which could be used to determine if individuals need to be referred or not.
 - There are apps that use either the MMSE, or MoCA. But there are no apps that use a combination of MMSE, MoCA, and IADL based off their feature importance
 
 These are my observations, but I want to hear your thoughts.
