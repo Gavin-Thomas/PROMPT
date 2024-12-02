@@ -1,6 +1,6 @@
 # A few things I've noticed... and a potential direction to take
 
-This is not a MUST. I just noticed this, had an idea, and thought that we could have a discussion about this. I don't want to disrupt anything, I was just interested in what you thought about this idea.
+This is not a MUST. I just noticed this, had an idea, and thought that we could have a discussion about this. I don't want to disrupt anything, I was just interested in what you thought about the following...
 
 The most relevant predictors we have in PROMPT are quite specialized. I performed an analysis of our most important predictors. The most important predictors for predictinig dementia (yes/no) appear to be IADL, MMSE, MoCA, and Age.
 
