@@ -1,27 +1,13 @@
-# A few things I've noticed... and a potential direction to take
 
-This is not a MUST. I just noticed this, had an idea, and thought that we could have a discussion about this. I don't want to disrupt anything, I was just interested in what you thought about the following...
+### Variables that could help delineate our cognitive categories further
+-  physician_main (physician name)
+-  patient_taking (aricept, galantamine, rivastigmine, memantine, or none)
+-  cognitive_cat (we have this variable, but it is empty -- this was a text variable -- this is why I made cognitive categories using Dr. Smith's rules
+-  
 
-The most relevant predictors we have in PROMPT are quite specialized. I performed an analysis of our most important predictors. The most important predictors for predictinig dementia (yes/no) appear to be IADL, MMSE, MoCA, and Age.
-
-This means that using our algorithm on routinely collected health data/administrative health record data may only work for a small % of our population, as most undifferentiated individuals will not have IADL, MMSE, or MoCA, in the administrative health records.
-
-This brings me to the idea of a Point of care screening test (primary care, undifferentiated patient), vs population based screening. And while this may have already been done for MoCa, MMSE, etc., has this been done using a combiniation of factors (better than any one test) to come up with a more sensitive measure of dementia? 
-
-We could build an algorithm using the most important predictors from PROMPT using optimal sensitivity based off the literature, to create an app-based algorithm that primary care physicians could use for screening. Essentially the primiary care physician could use the app to go through a barrage of questions for the patient using the app, then a local-app-based-algorithm could come up with a dementia risk score, or binary yes/no dementia --- this could help with referrals for the primary care physician and help them decide on whether or not to refer a patient to a dementia specialist. 
-- There are app-based dementia screening tools out there already, but most of them focus on tests other than IADL, MMSE, or MoCA. Other apps for primary care practitioners have used GPCOG, RUDAS, GDS-4, and CAIDE models.
-- GPCOG is used routinely, and is quick to administer, but I was thinking of potentially building an app that incorporates the IADL, MMSE, and MoCA standard to be more sensitive than the GPCOG -- an app which could be used to determine if individuals need to be referred or not.
-- There are apps that use either the MMSE, or MoCA. But there are no apps that use a combination of MMSE, MoCA, and IADL based off their feature importance
-
-These are my observations, but I want to hear your thoughts.
-
-**MAIN QUESTION: Rather than makinig our algorithm as a tool for facilitating diagnosis in a specialist memory clinic, maybe we could use our niche PROMPT registry data to develop a tool for undifferentiated patient screening in primary care.**
-- More useful tool for primary care
-- Could go stepwise and see what extra predictors improve the model. - ie. in my analysis I could start with IADL, then add MMSE, then add MoCA - and use a logistic regression to determine the risk of dementia. then as final icing on the cake, for example you could take the different scores to say 10 of your colleagues, if dementia risk score is this, then the experts recommend (re-testing in 12 months, or referral memory clinic as an example).
-
-**Jaakamainen appears to be using these algorithms to comment on the burden of disease not to inform individual patient care. This could be used to inform policy, but is not a screening tool.**
-Jaakamainen: The highest performing algorithm was “one hospitalization code OR (three physician claims codes at least 30 days apart in a two year period) OR a prescription filled for an AD-RD specific medication” with sensitivity 79.3% (confidence interval (CI) 72.9–85.8%), specificity 99.1% (CI 98.8–99.4%), positive predictive value 80.4% (CI 74.0–86.8%), and negative predictive value 99.0% (CI 98.7–99.4%).
-          
+  
+-  smoking_current_duration
+       
 # Final Combined Normalized IADL Scores
 
 ## Overview
